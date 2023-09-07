@@ -3,14 +3,14 @@
 <p align="center" width="100%">
     <img src="https://raw.githubusercontent.com/alexklwong/void-dataset/master/figures/void_samples.png"> 
     <figcaption>
-        <span class="caption"> <i> A couple of depth samples taken during the course of data collection.</i> </span>
+        <span class="caption"> <i> A couple of depth samples taken during data collection.</i> </span>
         <i class="photo-credit"> Figure from Alex Wong's void dataset.</i>
     </figcaption>
 </p>
 
 A visual-inertial depth estimation pipeline that integrates monocular depth estimation and visual-inertial odometry to produce dense depth estimates with metric scale has been demonstrated via this notebook. 
 
-The entirety of this notebook tutorial has been adapted from the [VI-Depth repository](https://github.com/isl-org/VI-Depth). Some pieces of the code dealing with the inference have been adapted as it is the [utils](vi_depth_utils) directory and have been used in the notebook. The data for inference has been obtained as a subset of the data that has been linked [here](https://github.com/alexklwong/void-dataset/blob/master/README.md). Due to the **compressed** format of the data in openly available Google drive links, uncompressing the same for few inference examples is not recommended. Hence this OpenVINO™ tutorial downloads data *on the fly*.
+This notebook tutorial has been adapted from the [VI-Depth repository](https://github.com/isl-org/VI-Depth). Some pieces of the code dealing with the inference have been adapted as it is the [utils](vi_depth_utils) directory and have been used in the notebook. The data for inference has been obtained as a subset of the data that has been linked [here](https://github.com/alexklwong/void-dataset/blob/master/README.md). Due to the **compressed** format of the data in openly available Google Drive links, uncompressing the same for a few inference examples is not recommended. Hence this OpenVINO™ tutorial downloads data *on the fly*.
 
 The authors have published their work here:
 
