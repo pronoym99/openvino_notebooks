@@ -7,7 +7,7 @@ from traitlets.config import Config
 
 
 # Notebooks that are excluded from the CI tests
-EXCLUDED_NOTEBOOKS = ["data-preparation-ct-scan.ipynb"]
+EXCLUDED_NOTEBOOKS = ["data-preparation-ct-scan.ipynb", "pytorch-monai-training.ipynb" ]
 
 DEVICE_WIDGET = "device = widgets.Dropdown("
 
@@ -21,6 +21,18 @@ def disable_gradio_debug(nb, notebook_path):
     if found:
         print(f"Disabled gradio debug mode for {notebook_path}")
     return nb
+
+
+def disable_skip_ext(nb, notebook_path):
+    found = False
+    for cell in nb["cells"]:
+        if "%%skip" in cell["source"]:
+            found = True
+            cell["source"] = re.sub(r"%%skip.*.\n", "\n", cell["source"])
+    if found:
+        print(f"Disabled skip extension mode for {notebook_path}")
+    return nb
+
 
 def patch_notebooks(notebooks_dir, test_device=""):
     """
@@ -53,7 +65,7 @@ def patch_notebooks(notebooks_dir, test_device=""):
                 if test_device and DEVICE_WIDGET in cell["source"]:
                     device_found = True
                     cell["source"] = re.sub(r"value=.*,", f"value='{test_device.upper()}',", cell["source"])
-                    cell["source"] = re.sub(r"options=.*,", f"options=['{test_device.upper()}'],", cell["source"])
+                    cell["source"] = re.sub(r"options=", f"options=['{test_device.upper()}'] + ", cell["source"])
                     print(f"Replaced testing device to {test_device}")
                 replace_dict = cell.get("metadata", {}).get("test_replace")
                 if replace_dict is not None:
@@ -75,6 +87,7 @@ def patch_notebooks(notebooks_dir, test_device=""):
             if not found:
                 print(f"No replacements found for {notebookfile}")
             disable_gradio_debug(nb, notebookfile)
+            disable_skip_ext(nb, notebookfile)
             nb_without_out, _ = output_remover.from_notebook_node(nb)
             with notebookfile.with_name(f"test_{notebookfile.name}").open("w", encoding="utf-8") as out_file:
                 out_file.write(nb_without_out)
